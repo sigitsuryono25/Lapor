@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lauwba.surelabs.lapor">
+
+    <!--UNTUK AKSES INTERNET-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--UNTUK AKSES TELEPON-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!--UNTUK AKSES GPS DAN LOKASI PENGGUNA-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--UNTUK AKSES INTERNAL MEMORI/GALLERY-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!--UNTUK AKSES KAMERA-->
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_laucher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_laucher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".LaporByPositionActivity"
+            android:noHistory="false"
+            android:screenOrientation="portrait">
+            <intent-filter>
+
+                <!--
+                Apabila ada filter ini, berarti kelas yang diatas Akan Dipanggil Pertama kali
+                ketika aplikasi dijalankan
+                -->
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MainMenuActivity" />
+        <!--<activity android:name=".LaporByPositionActivity"></activity>-->
+    </application>
+
+</manifest>
