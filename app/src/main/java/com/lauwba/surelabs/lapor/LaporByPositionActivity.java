@@ -34,10 +34,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.lauwba.surelabs.lapor.library.FilePath;
 import com.lauwba.surelabs.lapor.library.RequestHandler;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
