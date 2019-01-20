@@ -19,6 +19,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -34,8 +35,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
 import com.lauwba.surelabs.lapor.library.FilePath;
 import com.lauwba.surelabs.lapor.library.RequestHandler;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -113,6 +116,8 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
                 getLocation();
                 break;
             case R.id.ambilFoto:
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
                 i.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
@@ -204,6 +209,14 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Dibatalkan", Toast.LENGTH_SHORT).show();
             }
+        }
+
+        try {
+            FixBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+            byteArray = byteArrayOutputStream.toByteArray();
+            convertedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -340,9 +353,6 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            FixBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            byteArray = byteArrayOutputStream.toByteArray();
-            convertedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
             progressDialog = ProgressDialog.show(LaporByPositionActivity.this, "", "Mengirimkan Laporan", false, false);
         }
 
