@@ -3,7 +3,7 @@ package com.lauwba.surelabs.lapor;
 public class Config {
 
     //URL Konfigurasi
-    public static final String HOST = "http://192.168.144.2/Codeigniter/Admin119/index.php/";
+    public static final String HOST = "http://192.168.100.25/Codeigniter/Admin119/index.php/";
     public static final String URL_REGISTRASI = HOST + "Webservice/registrasi";
     public static final String URL_LOGIN = HOST + "Webservice/login";
     public static final String URL_LAPOR = HOST + "Webservice/lapor";

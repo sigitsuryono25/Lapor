@@ -39,6 +39,9 @@ import android.widget.Toast;
 import com.lauwba.surelabs.lapor.library.FilePath;
 import com.lauwba.surelabs.lapor.library.RequestHandler;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -73,12 +76,16 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
     private Bitmap FixBitmap, bmp;
     private byte[] byteArray;
 
+    SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lapor_by_position);
 
         setTitle("Halaman Kirim Laporan");
+
+        sessionManager = new SessionManager(getApplicationContext());
 
         getPosition = findViewById(R.id.getPosition);
         cameraPick = findViewById(R.id.ambilFoto);
@@ -105,6 +112,7 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
         send.setOnClickListener(this);
 
         getLocation();
+        pelapor.setText(sessionManager.getValue(Config.NAMA));
         byteArrayOutputStream = new ByteArrayOutputStream();
     }
 
@@ -144,7 +152,13 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
                 }
                 break;
             case R.id.btnKirim:
-                new prosesKirimLaporan().execute();
+                new prosesKirimLaporan().execute(new String[]{
+                        sessionManager.getValue(Config.NO_KTP),
+                        posisi.getText().toString(),
+                        jumlah.getText().toString(),
+                        status.getText().toString(),
+                        kondisi.getText().toString()
+                });
                 break;
         }
     }
@@ -195,6 +209,7 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
                     realPath = FilePath.getRealPathFromURI_API19(this, data.getData());
 
                 fromRealPath = Uri.fromFile(new File(realPath));
+                Log.i(TAG, "onActivityResult: " + fromRealPath);
                 try {
                     FixBitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(fromRealPath));
                 } catch (FileNotFoundException e) {
@@ -325,8 +340,9 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
                 e.printStackTrace();
             }
 
-            String s = latitude + "; " + longitude +
-                    "\nKota/Kabupaten/Desa: " + cityName;
+//            String s = latitude + "; " + longitude +
+//                    "\nKota/Kabupaten/Desa: " + cityName;
+            String s = latitude + "; " + longitude;
             posisi.setText(s);
         }
 
@@ -358,15 +374,17 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
 
         @Override
         protected String doInBackground(String... strings) {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                    Locale.getDefault()).format(new Date());
+            filename = "IMG_" + timeStamp + ".jpg";
             HashMap<String, String> params = new HashMap<>();
             RequestHandler handler = new RequestHandler();
-
-            params.put(Config.NO_KTP, "1606022502940003");
-            params.put(Config.POSISI, "-7.78328184, 110.50409317");
-            params.put(Config.JUMLAH_KORBAN, "2");
-            params.put(Config.STATUS_KORBAN, "MD");
-            params.put(Config.GAMBAR, "IMG_0001.jpg");
-            params.put(Config.KONDISI_KORBAN, "Patah bagian kaki");
+            params.put(Config.NO_KTP, strings[0]);
+            params.put(Config.POSISI, strings[1]);
+            params.put(Config.JUMLAH_KORBAN, strings[2]);
+            params.put(Config.STATUS_KORBAN, strings[3]);
+            params.put(Config.GAMBAR, filename);
+            params.put(Config.KONDISI_KORBAN, strings[4]);
             params.put(Config.FILE_CONTENT, convertedImage);
             return handler.sendPostRequest(Config.URL_LAPOR, params);
         }
@@ -376,6 +394,33 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
             super.onPostExecute(s);
             progressDialog.dismiss();
             Log.i(TAG, "onPostExecute: " + s);
+            if (!s.isEmpty()) {
+                try {
+                    JSONObject j = new JSONObject(s);
+                    JSONArray ja = j.getJSONArray("response");
+                    for (int i = 0; i < ja.length(); i++) {
+                        JSONObject jsonObject = ja.getJSONObject(i);
+                        String status = jsonObject.getString("status");
+                        String message = jsonObject.getString("message");
+                        if (status.equals("0")) {
+                            new AlertDialog.Builder(LaporByPositionActivity.this)
+                                    .setMessage(message)
+                                    .setPositiveButton("Oke", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    }).create().show();
+                        } else {
+                            Toast.makeText(LaporByPositionActivity.this, message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(LaporByPositionActivity.this, "No Data Received", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

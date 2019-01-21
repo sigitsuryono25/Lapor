@@ -5,15 +5,12 @@ package com.lauwba.surelabs.lapor.library;
  */
 
 import android.annotation.SuppressLint;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.CursorLoader;
 import android.util.Log;
 
@@ -28,34 +25,56 @@ public class FilePath {
     private static final String TAG = FilePath.class.getSimpleName();
 
     @SuppressLint("NewApi")
-    public static String getRealPathFromURI_API19(Context context, Uri uri){
+    public static String getRealPathFromURI_API19(Context context, Uri uri) {
+
         String filePath = "";
-        String wholeID = DocumentsContract.getDocumentId(uri);
+        try {
+            String wholeID = DocumentsContract.getDocumentId(uri);
 
-        // Split at colon, use second item in the array
-        String id = wholeID.split(":")[1];
+            // Split at colon, use second item in the array
+            String id = wholeID.split(":")[1];
 
-        String[] column = { MediaStore.Images.Media.DATA };
+            String[] column = {MediaStore.Images.Media.DATA};
 
-        // where id is equal to
-        String sel = MediaStore.Images.Media._ID + "=?";
+            // where id is equal to
+            String sel = MediaStore.Images.Media._ID + "=?";
 
-        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                column, sel, new String[]{ id }, null);
+            Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    column, sel, new String[]{id}, null);
 
-        int columnIndex = cursor.getColumnIndex(column[0]);
+            int columnIndex = cursor.getColumnIndex(column[0]);
 
-        if (cursor.moveToFirst()) {
-            filePath = cursor.getString(columnIndex);
+            if (cursor.moveToFirst()) {
+                filePath = cursor.getString(columnIndex);
+            }
+            cursor.close();
+        } catch (Exception e) {
+            filePath = getRealPathFromUri(context, uri);
+            e.printStackTrace();
         }
-        cursor.close();
+        return filePath;
+    }
+
+    public static String getRealPathFromUri(Context context, Uri contentUri) {
+        String filePath = "";
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            Log.i(TAG, "getRealPathFromUri: " + cursor.getString(column_index));
+            filePath = cursor.getString(column_index);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return filePath;
     }
 
 
     @SuppressLint("NewApi")
     public static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
+        String[] proj = {MediaStore.Images.Media.DATA};
         String result = null;
 
         CursorLoader cursorLoader = new CursorLoader(
@@ -63,7 +82,7 @@ public class FilePath {
                 contentUri, proj, null, null, null);
         Cursor cursor = cursorLoader.loadInBackground();
 
-        if(cursor != null){
+        if (cursor != null) {
             int column_index =
                     cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
@@ -72,8 +91,8 @@ public class FilePath {
         return result;
     }
 
-    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri){
-        String[] proj = { MediaStore.Images.Media.DATA };
+    public static String getRealPathFromURI_BelowAPI11(Context context, Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
         int column_index
                 = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -84,6 +103,7 @@ public class FilePath {
     public Uri getOutputMediaFileUri(int type, String selectedFilePath) {
         return Uri.fromFile(getOutputMediaFile(type, selectedFilePath));
     }
+
     public static File getOutputMediaFile(int type, String selectedFilePath) {
 
         // External sdcard location

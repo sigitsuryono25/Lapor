@@ -39,6 +39,12 @@ public class MainActivity extends AppCompatActivity {
         // define session
         sessionManager = new SessionManager(getApplicationContext());
 
+        if (sessionManager.chekSession()) {
+            finish();
+            startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
+        } else {
+            return;
+        }
 
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -107,12 +113,14 @@ public class MainActivity extends AppCompatActivity {
                         String nik = jsonObject.getString("nik");
                         String nama = jsonObject.getString("nama");
                         String email = jsonObject.getString("email");
-                        if (status == "0") {
+
+                        if (status.equals("0")) {
                             if (sessionManager.simpanSession(nik, nama, email)) {
+                                finish();
+                                startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
                                 Toast.makeText(MainActivity.this, "Login Berhasil. Selamat Datang, " + nama, Toast.LENGTH_SHORT).show();
-
                             } else {
-
+                                Toast.makeText(MainActivity.this, "Terjadi Kesalah Saat Membuat Session", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();

@@ -39,8 +39,8 @@
 
 
         <activity
-            android:name=".LaporByPositionActivity"
-            android:noHistory="false"
+            android:name=".MainActivity"
+            android:noHistory="true"
             android:screenOrientation="portrait">
             <intent-filter>
 
@@ -53,9 +53,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".Registrasi"
+            android:noHistory="true" />
         <activity android:name=".MainMenuActivity" />
-        <!--<activity android:name=".LaporByPositionActivity"></activity>-->
+        <activity android:name=".LaporByPositionActivity"></activity>
     </application>
 
 </manifest>
