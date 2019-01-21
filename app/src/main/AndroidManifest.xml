@@ -54,8 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Registrasi"
-            android:noHistory="true" />
+            android:name=".Registrasi"/>
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".LaporByPositionActivity"></activity>
     </application>

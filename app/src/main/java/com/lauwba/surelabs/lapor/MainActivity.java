@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText username, password;
     Button login;
-    Button register;
+    TextView register;
     SessionManager sessionManager;
 
     @Override
@@ -35,16 +35,15 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
-        register = findViewById(R.id.register);
 
         // define session
         sessionManager = new SessionManager(getApplicationContext());
 
         if (sessionManager.chekSession()) {
-            finish();
-            startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
-        } else {
-            return;
+            Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(i);
         }
 
 
@@ -52,9 +51,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().equals("") && password.getText().toString().equals("")) {
-//                    Toast.makeText(MainActivity.this, "Login Berhasil", Toast.LENGTH_SHORT).show();
-//                    startActivity(new Intent(MainActivity.this, MainMenuActivity.class));
-//                    finish();
                     Toast.makeText(MainActivity.this, "Lengkapi Semua Kolom", Toast.LENGTH_SHORT).show();
                 } else {
                     new ProsesLogin().execute(new String[]{username.getText().toString(), password.getText().toString()});
@@ -62,21 +58,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        register = findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Toast", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, Registrasi.class));
+                finish();
             }
         });
-
-//        register = findViewById(R.id.register);
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(MainActivity.this, Registrasi.class));
-//                finish();
-//            }
-//        });
     }
 
     private class ProsesLogin extends AsyncTask<String, String, String> {

@@ -8,9 +8,9 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:background="#FFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
         android:orientation="vertical">
 
         <ImageView
@@ -33,30 +33,34 @@
             android:inputType="textPassword" />
 
         <Button
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#FFF"
             android:id="@+id/login"
+            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Login"
-            android:textColor="#FFF" />
+            android:text="Login" />
 
-        <TextView
-            android:textAllCaps="true"
+        <LinearLayout
+            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Atau" />
+            android:layout_gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:background="@color/colorPrimaryDark"
-            android:text="Daftar"
-            android:textColor="#FFF" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Belum Punya Akun ? " />
+
+            <TextView
+                android:padding="8dp"
+                android:id="@+id/register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daftar Sekarang !"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
