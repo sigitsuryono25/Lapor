@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText username, password;
     Button login;
-    TextView register;
+    Button register;
     SessionManager sessionManager;
 
     @Override
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         login = findViewById(R.id.login);
+        register = findViewById(R.id.register);
 
         // define session
         sessionManager = new SessionManager(getApplicationContext());
@@ -61,14 +62,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        register = findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, Registrasi.class));
-                finish();
+                Toast.makeText(MainActivity.this, "Toast", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        register = findViewById(R.id.register);
+//        register.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, Registrasi.class));
+//                finish();
+//            }
+//        });
     }
 
     private class ProsesLogin extends AsyncTask<String, String, String> {
