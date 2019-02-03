@@ -8,9 +8,9 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:background="#FFF"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFF"
         android:orientation="vertical">
 
         <ImageView
@@ -18,6 +18,15 @@
             android:layout_height="250dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_satu_sembilan" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="Selamat Datang di Public Safety Center 119\nKabupaten Sragen"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/username"
@@ -33,20 +42,20 @@
             android:inputType="textPassword" />
 
         <Button
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#FFF"
             android:id="@+id/login"
-            android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Login" />
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimaryDark"
+            android:text="Login"
+            android:textColor="#FFF" />
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,10 +63,10 @@
                 android:text="Belum Punya Akun ? " />
 
             <TextView
-                android:padding="8dp"
                 android:id="@+id/register"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="8dp"
                 android:text="Daftar Sekarang !"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />

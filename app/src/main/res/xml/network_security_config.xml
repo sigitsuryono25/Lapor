@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config xmlns:android="http://schemas.android.com/apk/res/android">
-    <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">192.168.137.1</domain>
-    </domain-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<network-security-config xmlns:android="http://schemas.android.com/apk/res/android">-->
+    <!--<domain-config cleartextTrafficPermitted="true">-->
+        <!--<domain includeSubdomains="true">192.168.137.1</domain>-->
+        <!--<domain includeSubdomains="true">psc119.sragenkab.go.id</domain>-->
+    <!--</domain-config>-->
+<!--</network-security-config>-->

@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PSC119 Sukowati</string>
     <string name="title_activity_web_view">WebViewActivity</string>
+    <string name="copyright">&#169; 2019 Dinas Kesehatan Kabupaten Sragen</string>
 </resources>
