@@ -51,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (username.getText().toString().equals("") && password.getText().toString().equals("")) {
+                    Intent i = new Intent(MainActivity.this, MainMenuActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
                     Toast.makeText(MainActivity.this, "Lengkapi Semua Kolom", Toast.LENGTH_SHORT).show();
                 } else {
                     new ProsesLogin().execute(new String[]{username.getText().toString(), password.getText().toString()});

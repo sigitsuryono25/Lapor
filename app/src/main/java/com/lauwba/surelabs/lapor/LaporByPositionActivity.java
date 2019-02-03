@@ -85,8 +85,10 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
 
         setTitle("Halaman Kirim Laporan");
 
+        //membuat objek untuk handle session
         sessionManager = new SessionManager(getApplicationContext());
 
+        //memanggil atau mendaftarkan ID yang ada didalam file activity_lapor_by_position.xml
         getPosition = findViewById(R.id.getPosition);
         cameraPick = findViewById(R.id.ambilFoto);
         galleryPick = findViewById(R.id.gallery);
@@ -102,8 +104,10 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
         pratinjauImage = findViewById(R.id.pratinjau);
         location = findViewById(R.id.location);
 
+        //mengaktfikan perizinan untuk GPS
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        //mengaktifkan fungsi klik untuk setiap tombol yang ada
         getPosition.setOnClickListener(this);
         cameraPick.setOnClickListener(this);
         galleryPick.setOnClickListener(this);
@@ -111,8 +115,13 @@ public class LaporByPositionActivity extends AppCompatActivity implements View.O
         close.setOnClickListener(this);
         send.setOnClickListener(this);
 
+        //memanggil fungsi getLocation
         getLocation();
+
+        //mengatur isi text kolom pelapor menjadi nama user yang sedang login
         pelapor.setText(sessionManager.getValue(Config.NAMA));
+
+        //mempersiapkan object byte untuk menampung gambar hasil jepretan atau hasil pilih dari gallery
         byteArrayOutputStream = new ByteArrayOutputStream();
     }
 

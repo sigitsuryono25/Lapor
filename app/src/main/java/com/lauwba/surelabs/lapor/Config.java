@@ -24,4 +24,7 @@ public class Config {
     public static final String FILE_CONTENT = "file-content";
     public static final String KONDISI_KORBAN = "kondisi_korban";
 
+    //parameter URL
+    public static final String URL = "url";
+
 }

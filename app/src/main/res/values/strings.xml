@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Emergency Apps</string>
+    <string name="app_name">PSC119 Sukowati</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
 </resources>
